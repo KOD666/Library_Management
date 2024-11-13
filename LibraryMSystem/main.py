@@ -18,13 +18,13 @@ class HashTable:
     
     # Simple hash function for string/integer keys converts string keys to sum of ASCII values or uses numeric keys directly, then applies modulo with table size
     
-    def _hash(self, key):
-        return hash(key) % self.size
-    
     # def _hash(self, key):
-    #     if isinstance(key, str):
-    #         return sum(ord(c) for c in key) % self.size
-    #     return key % self.size
+    #     return hash(key) % self.size
+    
+    def _hash(self, key):
+        if isinstance(key, str):
+            return sum(ord(c) for c in key) % self.size
+        return key % self.size
     
     # Insert data into hash table in key value pair
     def insert(self, key, value):
@@ -210,6 +210,7 @@ class LibraryManagementSystem:
         member_id_entry = ttk.Entry(dialog)
         member_id_entry.pack()
         
+        # When You Issue A Book Then it auto sets the due date after 14 days to just display
         def issue_book():
             member_id = member_id_entry.get()
             if not member_id:
@@ -217,8 +218,8 @@ class LibraryManagementSystem:
                 return
             
             book.status = "Issued"
-            # book.borrower = member_id
-            # book.due_date = datetime.now() + timedelta(days=14)
+            book.borrower = member_id
+            book.due_date = datetime.now() + timedelta(days=14)
             self.refresh_books_list()
             dialog.destroy()
             messagebox.showinfo("Success", "Book issued successfully!")
